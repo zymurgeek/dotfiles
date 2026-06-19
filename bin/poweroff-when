@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Shut down this device to prevent draining a battery below a remaining 
+# percentage of its power.
+#
+# Syntax:  poweroff-when <power-device> <percent-remaining>
+#
+# Example:  poweroff-when /sys/class/power_supply/BAT1 5
+#
+# <power-device> is the power-supply class directory, e.g. 
+#   /sys/class/power_supply/BAT1
+# <percent-remaining> a number 0 - 100, indicating the percentage of power 
+#   remaining in the power-device at or below which shutdown should occur.
+#
+# Once the power-device's percentage remaining is at or below the given per 
+# percentage-remaining, this device will be shut down to prevent draining the 
+# battery further.
+
+POWER_DEVICE=$1
+PERCENT_REMAINING=$2
+CAPACITY=101
+LAST_CAPACITY=0
+
+while [ $CAPACITY -gt $PERCENT_REMAINING ]
+do
+  CAPACITY=`cat $POWER_DEVICE/capacity`
+  if [ ${CAPACITY} -ne ${LAST_CAPACITY} ]; then
+    echo -ne "\rPoweroff will occur when capacity decreases to ${PERCENT_REMAINING}%.   \b\b\b"
+    echo -n "  Current capacity is ${CAPACITY}%."  
+    LAST_CAPACITY=$CAPACITY
+  else
+    sleep 1
+  fi
+done
+
+echo ""
+echo Shutting down.
+poweroff
+

@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# Output the current remaining battery percentage(s).
+#
+# Syntax:  battery-levels [event]
+#
+# Example:  battery-levels shutdown
+#
+# Battery levels are output to standard output.
+# If an event is given it is output first in the format:
+# <timestamp> <event>
+# Thereafter, each battery is output in the format:
+# <timestamp> <battery device> <remaining charge percentage>
+
+EVENT="$1"
+TIME_STAMP=`date`
+
+if [ -n "$EVENT" ]; then
+  echo $TIME_STAMP $EVENT
+fi
+
+for POWER_DEVICE in /sys/class/power_supply/BAT*; do
+  CAPACITY=`cat $POWER_DEVICE/capacity`
+  echo $TIME_STAMP $POWER_DEVICE ${CAPACITY}%
+done
