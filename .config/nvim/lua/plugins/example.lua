@@ -183,10 +183,13 @@ return {
   { import = "lazyvim.plugins.extras.lang.json" },
 
   -- add any tools you want to have installed below
+  -- DAG 2/6/2025: Added clangd and clang-format
   {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
+        "clangd",
+        "clang-format",
         "stylua",
         "shellcheck",
         "shfmt",
