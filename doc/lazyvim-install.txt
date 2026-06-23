@@ -1,0 +1,30 @@
+For programs that don't run because of an insufficient glibc version, compile them with OBJGCC:
+https://github.com/AmanoTeam/obggcc
+
+= Cargo =
+Note: /tmp is used by Cargo by default, but that directory is mounted noexec in runtimes.  Add this to ~/.cargo/config.toml:
+
+[build]
+target-dir = "cargo-target"         # path of where to place generated artifacts
+
+cargo-target will be ~/cargo-target
+
+= Installs =
+cargo install tree-sitter-cli
+fails because dependency rquickjs-sys-0.10.0 fails
+
+= Recommended dependencies =
+See https://lazyvim-ambitious-devs.phillips.codes/course/chapter-1/#_install_other_recommended_dependencies for links
+
+- junegunn/fzf
+- jesseduffield/lazygit
+- BurntSushi/ripgrep
+- sharkdp/fd
+
+= Testing =
+Use script ~/bin/nvimt to test updates to NeoVim/LazyVim.  It uses the lazyvim-test directory instead of the nvim directory in these directories:
+  ~/.cache
+  ~/.config
+  ~/.local/share
+  ~/.local/state
+The way it does this is by setting the environment variable NVIM_APPNAME to lazyvim-test.  nvim is the default.

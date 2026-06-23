@@ -1,0 +1,18 @@
+RipGrep (executable name rg) is from site https://github.com/BurntSushi/ripgrep
+
+Source downloaded to ~/ripgrep.
+
+Downloading a pre-built executable from https://github.com/BurntSushi/ripgrep/releases works on Rocky 8, but fails on CentOS 7 due to a GCC library that doesn't support the version rg needs.
+
+# Running rg from ripgrep-14.1.1-i686-unknown-linux-gnu:
+./rg: /lib/libc.so.6: version `GLIBC_2.18' not found (required by ./rg)
+$ objdump -p /lib/libc.so.6
+...
+30 0x00 0x06969197 GLIBC_2.17
+(GLIBC_2.18 is not present)
+
+# Running rg from ripgrep-14.1.1-x86_64-unknown-linux-musl works
+
+I built a custom version, but it didn't help.  Maybe was a problem with Rust that's required to build it?  I don't recall.
+
+Maybe try building with Homebrew (~/homebrew). That requires updating curl and some other stuff.

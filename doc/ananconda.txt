@@ -1,0 +1,17 @@
+https://repo.anaconda.com/
+
+https://anaconda.org/search?q=
+
+curl "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" | sh
+
+-or-
+
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > Miniconda.sh
+bash Miniconda.sh -b -p ~/conda
+# -b is used to specify that this is done "in batch", so skip the EULA prompt
+# -p lets you specify where you want conda installed
+
+Execute ~/conda/bin/conda install conda-forge::gcc # for gcc
+Also ~/conda/bin/conda install -c conda-forge gxx  # for g++
+
+Files are installed in e.g., ~/conda/bin

@@ -1,0 +1,43 @@
+https://github.com/llvm/llvm-project/tree/main/clang-tools-extra/clangd#building-and-testing-clangd
+
+Requires later GCC than Centos7 has, so run env-conda to use GCC 11
+
+LLVM_ROOT=~/llvm-project
+cd $LLVM_ROOT
+mkdir build
+cd build
+cmake $LLVM_ROOT/llvm/ -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" 
+cmake --build . --target clangd
+
+This will make /home/dgreenbaum/llvm-project/build/bin/clangd
+/home/dgreenbaum/.local/share/nvim/mason/bin/clangd needs to point to it, not /home/dgreenbaum/.local/share/nvim/mason/packages/clangd/clangd_20.1.0/bin/clangd:
+
+cd /home/dgreenbaum/.local/share/nvim/mason/bin
+rm clangd
+ln -s /home/dgreenbaum/llvm-project/build/bin/clangd .
+
+**** Logs from LSP are in ~/.local/state/nvim/lsp.log
+**** CLangD reads compile_commands.json from the current directory and keeps looking in parent directories until it finds it.
+See https://clangd.llvm.org/design/compile-commands
+
+For ssds-u_src, compile_commands.json lists paths relative to the docker build container.  These paths are different in the ssds-rt-js VM.  
+For instance, in the docker build container, this file:
+  /src/ssds-u_src/nfs_server1/MK2/IS/dr/src/c_src/dr_main.c_src
+exists here on the VM:
+  /ssds/workarea/dgreenbaum/cp5-repos/ssds-u_src/nfs_server1/MK2/IS/dr/src/c_src/dr_main.cc
+Since NeoVim is running in the VM and not the Docker container, the path that clangd gives LSP does not exist.
+GDB has a way to handle this using "set substitute-path /from/path /to/path".  In this example, the command would be:
+  set substitute-path /src/ssds-u_src /ssds/workarea/dgreenbaum/cp5-repos/ssds-u_src
+I haven't found anything for clangd, but there was some discussion of implementing this in 2019.  
+Currently, I'm looking at the NeoVim LSP documentation in https://neovim.io/doc/user/lsp.html
+
+clangd has an option --path-mappings.  This can be passed in a NVim configuration section similar to this:
+vim.lsp.config.clangd = {
+  cmd = {
+    'clangd',
+    '--clang-tidy',
+    '--background-index',
+    '--offset-encoding=utf-8',
+  },
+
+***** Check out ~/.local/share/nvim/lazy/nvim-lspconfig/lua/lspconfig/configs/clangd.lua for passing options to CLangD.

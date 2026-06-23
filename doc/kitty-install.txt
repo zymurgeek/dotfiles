@@ -1,0 +1,38 @@
+Kitty is a terminal emulator that supports ligatures and NerdFonts
+https://sw.kovidgoyal.net/kitty/
+
+Binary installation:
+https://sw.kovidgoyal.net/kitty/binary/
+
+Help:
+kitty --help
+kitten --help
+
+Configuration:
+Ctrl-Shift-F2
+
+Fonts:
+kitten choose-fonts
+Supports ligatures and italics:  CackaydiaCove NF (Cascadia Nert Font)
+
+Problems:
+When run on CentOS 7, kitty does not load:
+kitty: /lib64/libc.so.6: version `GLIBC_2.25' not found (required by /home/dgreenbaum/.local/kitty.app/bin/../lib/libpython3.12.so.1.0)
+kitty: /lib64/libc.so.6: version `GLIBC_2.26' not found (required by /home/dgreenbaum/.local/kitty.app/bin/../lib/libpython3.12.so.1.0)
+kitty: /lib64/libc.so.6: version `GLIBC_2.27' not found (required by /home/dgreenbaum/.local/kitty.app/bin/../lib/libpython3.12.so.1.0)
+
+Running install from source (https://sw.kovidgoyal.net/kitty/build/) fails for the same reason:
+$ git clone https://github.com/kovidgoyal/kitty.git && cd kitty
+$ ./dev.sh build
+/home/dgreenbaum/kitty/dependencies/linux-amd64/bin/python: /lib64/libc.so.6: version `GLIBC_2.25' not found (required by /home/dgreenbaum/kitty/dependencies/linux-amd64/lib/libpython3.12.so.1.0)
+/home/dgreenbaum/kitty/dependencies/linux-amd64/bin/python: /lib64/libc.so.6: version `GLIBC_2.26' not found (required by /home/dgreenbaum/kitty/dependencies/linux-amd64/lib/libpython3.12.so.1.0)
+/home/dgreenbaum/kitty/dependencies/linux-amd64/bin/python: /lib64/libc.so.6: version `GLIBC_2.27' not found (required by /home/dgreenbaum/kitty/dependencies/linux-amd64/lib/libpython3.12.so.1.0)
+
+Replaced python in the dependencies/linux-amd64/bin directory with a link to my working Python 3.13.2 executable:
+$ ./dev.sh build
+Fatal Python error: Failed to import encodings module
+Python runtime state: core initialized
+ModuleNotFoundError: No module named 'encodings'
+$ export PYTHONHOME=/home/dgreenbaum/Python-3.13.2
+$ ./dev.sh build
+ModuleNotFoundError: No module named 'encodings'

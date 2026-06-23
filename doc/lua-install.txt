@@ -1,0 +1,4 @@
+Get package from:
+wget https://dl.rockylinux.org/pub/rocky/8/Devel/x86_64/os/Packages/l/lua-devel-5.3.4-12.el8.x86_64.rpm
+
+See yumdownloader.txt to install to ~/rocky8

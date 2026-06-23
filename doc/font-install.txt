@@ -1,0 +1,9 @@
+https://docs.rockylinux.org/10/books/nvchad/nerd_fonts/
+
+List of fonts:
+https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
+
+To install:
+cd ~/nerd-fonts
+git sparse-checkout add patched-fonts/IBMPlexMono
+./install.sh IBMPlexMono

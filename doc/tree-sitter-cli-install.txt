@@ -1,0 +1,39 @@
+The tree-sitter-cli package from Cargo, which NeoVim tries to install will not run: 
+[nvim-treesitter/install/markdown_inline]: Compiling parser
+[nvim-treesitter/install/markdown_inline] error: Error during "tree-sitter build": tree-sitter: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by tree-sitter)
+tree-sitter: /lib64/libm.so.6: version `GLIBC_2.39' not found (required by tree-sitter)
+
+12:09:24 PM msg_show.echomsg [nvim-treesitter/install/gitignore] error: Error during "tree-sitter build": tree-sitter: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by tree-sitter)
+tree-sitter: /lib64/libm.so.6: version `GLIBC_2.35' not found (required by tree-sitter)
+tree-sitter: /lib64/libc.so.6: version `GLIBC_2.29' not found (required by tree-sitter)
+tree-sitter: /lib64/libc.so.6: version `GLIBC_2.30' not found (required by tree-sitter)
+tree-sitter: /lib64/libc.so.6: version `GLIBC_2.32' not found (required by tree-sitter)
+tree-sitter: /lib64/libc.so.6: version `GLIBC_2.33' not found (required by tree-sitter)
+tree-sitter: /lib64/libc.so.6: version `GLIBC_2.34' not found (required by tree-sitter)
+tree-sitter: /lib64/libc.so.6: version `GLIBC_2.39' not found (required by tree-sitter)
+
+tree-sitter is in ~/.local/share/nvim/mason/packages/tree-sitter-cli/tree-sitter-linux-x64
+
+Try to download the source and build it:
+https://github.com/tree-sitter/tree-sitter/releases/tag/v0.26.3
+
+Doing a configure and build with cmake works, but only creates a shared library, not tree-sitter-cli
+
+Downloading v0.20.0 runs, but nvim-treesitter isn't happy with it:
+[nvim-treesitter/install/tsx]: Compiling parser
+[nvim-treesitter/install/tsx] error: Error during "tree-sitter build": error: The subcommand 'build' wasn't recognized
+	Did you mean 'build-wasm'?
+
+Try v0.22.6:  Needs GLIBC_2.29
+Try v0.21.0:  Needs GLIBC_2.29 
+
+The tree-sitter executable installed by Cargo or NPM needs libm.so.6 with GLIBC_2.35.  /lib64/libm.so.6 has GLIBC_2.28
+
+Building glibc-2.39 works, but setting LD_LIBRARY_PATH to the built libm.so.6 makes tree-sitter segfault.
+
+See https://tree-sitter.github.io/tree-sitter/6-contributing.html#building
+Cloned repo to ~/tree-sitter/tree-sitter/
+Working tree-sitter 0.27 is in ~/tree-sitter/tree-sitter/target/release/tree-sitter
+linked ~/.local/share/nvim/mason/packages/tree-sitter-cli/tree-sitter-linux-x64 to ^
+cargo install --locked tree-sitter-cli
+Worked!

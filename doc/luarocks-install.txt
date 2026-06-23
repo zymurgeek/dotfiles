@@ -1,0 +1,9 @@
+Requires:
+Lua is already installed, but not the required development package (headers and libraries).
+See lua-install.txt
+
+Instructions:
+https://luarocks.org/#quick-start
+- for configure step use:
+./configure --prefix=$HOME/.local --with-lua-include=$HOME/rocky8/usr/include --with-lua-lib=$HOME/rocky8/usr/lib
+

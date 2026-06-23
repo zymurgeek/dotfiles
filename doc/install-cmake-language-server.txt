@@ -1,0 +1,4 @@
+cmake-language-server is installed in 
+/home/dgreenbaum/.local/share/nvim/mason/packages/cmake-language-server/venv/bin
+It was installed on Rocky8 and depends on /usr/bin/python3.11.  This version of python does not exist on CentOS 7 VMs.
+

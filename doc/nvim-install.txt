@@ -1,0 +1,99 @@
+=Installation=
+How was NeoVim installed?  Tar nvim-linux-x86_64.targ.gz linked to ~/bin/nvim
+Need to use the unsupported appimage for linux with glibc 2.17:
+https://github.com/neovim/neovim-releases?tab=readme-ov-file
+https://github.com/neovim/neovim-releases/releases
+nvimt using NeoVim 0.12.3 is using the x86_64 appimage
+
+=Instructions=
+To open NeoTree explorer to the directory of the current file:
+:Neotree reveal
+
+To install plugin using Lazy.vim:
+in ~/.config/nvim/init.lua:
+  require("config.lazy")
+
+~/.config/nvim/lua/config/lazy.lua
+Create plugin specs in ~/.config/nvim/lua/plugins
+Each file should return a table with the plugins you want to install
+
+LazyVim extras are specified in ~/.config/nvim/lazyvim.json, but these can be toggled by running nvim with no arguments and selecting "x" from the menu.
+
+CMake tools can be enabled from Lazy Extras.
+To disable formatting of CMake files in a directory, create a file in that directory named .clang-format with this contents:
+BasedOnStyle: Google
+DisableFormat: true
+or add comment to code // clang-format: off
+See neocmake and cmake formatters
+
+To check on formatter:
+:Conform
+Log is in ~/.local/state/nvim/conform.log
+
+Language support is done with Mason "<space>cm"
+
+Python editing intermittently freezes.  To disable Python support, use :set filetype=txt
+
+To diagnose problems with LSP (file or type not found):
+~/.local/share/nvim/mason/bin/clangd --check=MK2/TOOLS/gddgen/messages/s0e09_ac_enable_drop_system_track_mt_gdd/main.cpp
+This will show where compile_commands.json is loaded from and any errors trying to parse the file given by --check.
+CLang is searching for compile_commands.json in the build directory and ignoring build/..
+If CMake doesn't generate build/compile_commands.json, set the environment variable CMAKE_EXPORT_COMPILE_COMMANDS=enable
+
+=Errors=
+With libblink_cmp_fuzzy-x86_64-unknown-linux-gnu.so:
+
+   Error  02:57:26 PM msg_show.lua_error Error executing vim.schedule lua callback: error loading module 'blink_cmp_fuzzy' from file '/home/dgreenbaum/.local/share/nvim/lazy/blink.cmp/lua/blink/cmp/fuzzy/rust/../../../../../target/release/libblink_cmp_fuzzy.so':
+	/lib64/libc.so.6: version `GLIBC_2.18' not found (required by /home/dgreenbaum/.local/share/nvim/lazy/blink.cmp/lua/blink/cmp/fuzzy/rust/../../../../../target/release/libblink_cmp_fuzzy.so)
+
+  /home/dgreenbaum/.local/share/nvim/lazy/blink.cmp/target/release/libblink_cmp_fuzzy.so
+
+With libblink_cmp_fuzzy-x86_64-unknown-linux-musl.so:
+
+Downloaded x86_64_unknown-linux-musl versions of .so and .so.sha256 and linked to them with libblink_cmp_fuzzy.*
+
+   Error  03:24:47 PM msg_show.lua_error Error executing vim.schedule lua callback: error loading module 'blink_cmp_fuzzy' from file '/home/dgreenbaum/.local/share/nvim/lazy/blink.cmp/lua/blink/cmp/fuzzy/rust/../../../../../target/release/libblink_cmp_fuzzy.so':
+	/lib64/libc.so: invalid ELF header
+
+  Check ~/.local/share/nvim/lazy/blink.cmp/lua/blink/cmp/fuzzy/init.lua
+Change lua to rust:
+local fuzzy = {
+    implementation_type = 'rust'
+  }
+
+From /home/dgreenbaum/.local/share/nvim/lazy/blink.cmp, run cargo build --release
+This works.
+
+Run the cargo command above if you see this error in the Noice log (<space>snh):
+   Warn  10:09:24 AM notify.warn blink.cmp [blink.cmp]: Found an outdated version of the locally built fuzzy matching library
+   Warn  10:09:24 AM notify.warn blink.cmp [blink.cmp]: Falling back to Lua implementation due to error while downloading pre-built binary:
+...vim/lazy/blink.cmp/lua/blink/cmp/fuzzy/download/init.lua:59: Found an outdated version of the fuzzy matching library, but downloading from github is disabled.
+!! FOR DEVELOPERS !!, set `fuzzy.prebuilt_binaries.ignore_version_mismatch = true` in config.
+!! FOR USERS !!, either run `cargo build --release` via your package manager, or set either `fuzzy.prebuilt_binaries.download = true` or `fuzzy.prebuilt_binaries.force_version` in config.
+See the docs for more info.
+
+Refactoring plugin
+https://github.com/ThePrimeagen/refactoring.nvim
+Added refactoring.lua where example.lua is.
+
+18 June 2025 NVIM slow to load CPP and header files:
+Both ssds-data-recording and ssds-data-dictionary repos are affected.
+Running Lazy Vim and Synching fixed the problem
+This problem has quickly returned.
+
+18 June 2025 errors displayed by :checkhealth
+node: /lib64/libstdc++.so.6: version `GLIBC X_3.4.20' not found (required by node)
+node: /lib64/libstdc++.so.6: version 'CXXABI_1.3.9' not found (required by node)
+node: /lib64/libstdc++.so.6: version 'GLIBCXX_3.4.21' not found ( required by node)
+node: /lib64/lubc.so.6: version 'GLIBC_2.28' not found (required by node)
+node: /lib64/lubc.so.6: version 'GLBIC_2.24' not foun d(required by node)
+
+Run nvim --startuptime profile <your-slow-file> +q
+This creates a file called "profile" with timings as NeoVim starts, then exits as soon as it loads.
+Omit "+q" to keep running after NeoVim loads.
+
+15 July 2025:  Errors from blink.cmp about incorrect usage of str_utfindex().  Rebuilding blink.cmp with instructions above did not fix it.
+Fixed by upgrading from NeoVim v0.10.3 to v0.11.2
+
+11 February 2026: tree-sitter won't run
+See tree-sitter-cli-install.txt

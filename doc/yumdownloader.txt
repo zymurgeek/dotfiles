@@ -1,0 +1,10 @@
+Download the packages, and indicate to include dependencies with the --resolve flag.
+
+yumdownloader --resolve openslide-tools
+
+Iterate over all downloaded rpm files.
+
+for i in *.rpm; do rpm2cpio $i | cpio -idv; done
+
+the output will be stored in your present working directory $PWD/usr/*
+
