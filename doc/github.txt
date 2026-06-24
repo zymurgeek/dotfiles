@@ -1,4 +1,4 @@
-Create SSH key.  See 
+Create SSH key for push operations.  See 
 https://dev.to/jajera/how-to-configure-ssh-for-github-authentication-2b53 
 but use this for generating the key on ssds-rt-r8-1:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
