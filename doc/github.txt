@@ -1,4 +1,24 @@
+To pull "config" setup, see: https://www.atlassian.com/git/tutorials/dotfiles and the referenced Hacker News post about how to deal with existing files: https://news.ycombinator.com/item?id=11070797
+
 Create SSH key for push operations.  See 
 https://dev.to/jajera/how-to-configure-ssh-for-github-authentication-2b53 
 but use this for generating the key on ssds-rt-r8-1:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+The TL;DR for machines with existing dotfiles:
+# Add the config alias to ~/.bashrc or ~/.bash_aliases (if your bashrc loads this):
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# Open a new shell, source .bash_aliases, or enter the command above in your shell
+# Clone the bare repository, but put its files in a separate directory to prevent collisions with existing files (you should resolve these later):
+git clone --separate-git-dir=$HOME/.cfg https://github.com/zymurgeek/dotfiles.git $HOME/cfg-copy-can-be-deleted
+# Set up gitignore to ignore the bare repository
+echo ".cfg" >> ~/.gitignore
+# Set up Git to not complain about files that aren't part of your config repository:
+config config --local status.showUntrackedFiles no
+# Change the remote for Git push operations to SSH with a key
+config remote set-url --push origin git@github.com:zymurgeek/dotfiles.git
+# The output of "config remote -v" should be:
+#   origin	https://github.com/zymurgeek/dotfiles.git (fetch)
+#   origin	git@github.com:zymurgeek/dotfiles.git (push)
+# Create an SSH key to use with Git push operations using instructions at link above "Create SSH key for push operations".
+# (Git pull operations will use the HTTP URL that does not require authentication)
