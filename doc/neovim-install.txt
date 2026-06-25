@@ -1,0 +1,7 @@
+Installation instructions:  https://neovim.io/doc/install/
+
+TL;DR for Ubuntu:
+cd ~/bin
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+chmod u+x nvim-linux-x86_64.appimage
+ln -s ~/bin/nvim-linux-x86_64.appimage ~/.local/bin/nvim

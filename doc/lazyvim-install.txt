@@ -1,3 +1,5 @@
+Install NeoVim first (see neovim-install.txt)
+
 Installation instructions:
 https://www.lazyvim.org/installation
 
