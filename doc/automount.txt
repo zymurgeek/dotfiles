@@ -1,0 +1,3 @@
+Setting up automount for DS411+II NAS on Faber network
+
+See Proton Docs "Ubuntu 26.04 Installation"
