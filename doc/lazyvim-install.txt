@@ -1,0 +1,7 @@
+Installation instructions:
+https://www.lazyvim.org/installation
+
+Rather than using the git repos in those instructions, if "config" is set up,
+config checkout -- ~/.config/nvim
+
+Instructions to set up "config" are in the "About" section of https://github.com/zymurgeek/dotfiles#
