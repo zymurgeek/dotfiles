@@ -1,0 +1,16 @@
+The following software can be installed with Apt:
+
+sudo apt install \
+  autofs \
+  cifs-utils \
+  git \
+  gnucash \
+  signal \
+  synaptic
+
+via snap:
+  keepassxc
+
+TBD:
+  Thunderbird (snap) configuration
+
