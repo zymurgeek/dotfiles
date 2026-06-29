@@ -2,9 +2,14 @@ The following software can be installed with Apt:
 
 sudo apt install \
   autofs \
+  build-essential \
   cifs-utils \
+  fd-find \
+  fzf \
   gnucash \
+  lazygit \
   openssh-server \
+  ripgrep \
   signal \
   synaptic
 
