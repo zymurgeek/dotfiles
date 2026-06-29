@@ -4,6 +4,7 @@ sudo apt install \
   autofs \
   cifs-utils \
   gnucash \
+  openssh-server \
   signal \
   synaptic
 
