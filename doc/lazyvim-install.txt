@@ -1,5 +1,8 @@
 Install NeoVim first (see neovim-install.txt)
 
+Prerequisites for LayzVim plugins I have:
+sudo apt install tree-sitter-cli
+
 Installation instructions:
 https://www.lazyvim.org/installation
 
