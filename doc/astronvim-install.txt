@@ -1,0 +1,7 @@
+Installation instructions at https://docs.astronvim.com/
+
+Install prerequisites
+Bottom:  sudo snap install bottom
+Node is sudo apt install nodejs npm
+Python is sudo apt install python-is-python3
+NerdFonts in nerd-font-install.txt

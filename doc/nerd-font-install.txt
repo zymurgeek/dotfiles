@@ -1,0 +1,9 @@
+Download JetBrainsMono Nerd Font from 
+https://www.nerdfonts.com/font-downloadshttps://www.nerdfonts.com/font-downloads
+
+Unzip fonts to /usr/local/share/fonts
+Run fc-cache -fv
+
+Change font in Kitty:
+run kitten choose-fonts
+Select JetBrainsMono Nerd Font
